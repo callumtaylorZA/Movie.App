@@ -11,8 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Movie\Models\Responses\" />
-    <Folder Include="Movie\Models\Requests\" />
+    <Folder Include="Movies\Models\Responses\" />
+    <Folder Include="Movies\Models\Requests\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Movie.DataAccess\Movie.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

@@ -14,10 +14,10 @@ namespace Movie.DataAccess.Repo
         }
 
         public async Task<IEnumerable<MovieEntity>> GetMovies() =>
-            await _sqlDataAccess.LoadData<MovieEntity, dynamic>("dbo.sp_Movie_GetAll", new {});
+            await _sqlDataAccess.LoadData<MovieEntity, object>("dbo.sp_Movie_GetAll", new {});
 
         public async Task<MovieEntity?> GetMovieById(Guid id) =>
-            (await _sqlDataAccess.LoadData<MovieEntity, dynamic>(
+            (await _sqlDataAccess.LoadData<MovieEntity, object>(
                 "dbo.sp_Movie_GetById", new { Id = id })).FirstOrDefault();
 
         public async Task InsertMovie(MovieEntity movieEntity) =>

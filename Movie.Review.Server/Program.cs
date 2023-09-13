@@ -1,22 +1,22 @@
+using Movie.DataAccess.DataAccess;
+using Movie.DataAccess.Repo;
+using Movie.DataAccess.Repo.Interfaces;
 using Movie.Review.Server.Common.Interfaces;
+using Movie.Review.Server.Movie.Interfaces;
+using Movie.Review.Server.Movie.Services;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-
-var services = Assembly.GetExecutingAssembly()
-    .GetTypes()
-    .Where(x => typeof(IService).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-    .Select(Activator.CreateInstance);
 
 var controllers = Assembly.GetExecutingAssembly()
     .GetTypes()
     .Where(x => typeof(IController).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
     .Select(Activator.CreateInstance);
 
-foreach (var service in services)
-{
-    (service as IService)?.Configure(builder);
-}
+builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
+builder.Services.AddSingleton<ILookupRepo, LookupRepo>();
+builder.Services.AddSingleton<IMoviesRepo, MoviesRepo>();
+builder.Services.AddSingleton<IMoviesService, MoviesService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -28,16 +28,12 @@ foreach (var controller in controllers)
     (controller as IController)?.SetupController(app);
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.Run();
+app.UseHttpsRedirection();
 
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+app.Run();
