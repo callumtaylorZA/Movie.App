@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[Movie]
 (
-    [Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    [Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY NONCLUSTERED,
     [Name] NVARCHAR(50) NOT NULL,
-    [CategoryId] INT,
+    [CategoryId] INT NOT NULL,
     [RatingId] INT NOT NULL,
     [CreatedAt] Datetime NOT NULL,
     [ModifiedAt] DateTime NULL,
