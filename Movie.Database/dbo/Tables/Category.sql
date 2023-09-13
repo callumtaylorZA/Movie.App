@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[Category]
+(
+    [Id] INT NOT NULL PRIMARY KEY CLUSTERED,
+    [Name] NVARCHAR(50) NOT NULL
+)
