@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Server", "Movie.Revie
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Movie.Database", "Movie.Database\Movie.Database.sqlproj", "{DAB07073-A9DD-4D8B-A16C-0A4820ECB855}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.DataAccess", "Movie.DataAccess\Movie.DataAccess.csproj", "{B27428A6-029E-48A9-89EF-533DDF652645}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.DataAccess", "Movie.DataAccess\Movie.DataAccess.csproj", "{B27428A6-029E-48A9-89EF-533DDF652645}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Movie.Web", "Movie.Web\Movie.Web.esproj", "{B4F39E97-6000-417C-96D2-C8BA213FD941}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,12 @@ Global
 		{B27428A6-029E-48A9-89EF-533DDF652645}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B27428A6-029E-48A9-89EF-533DDF652645}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B27428A6-029E-48A9-89EF-533DDF652645}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4F39E97-6000-417C-96D2-C8BA213FD941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4F39E97-6000-417C-96D2-C8BA213FD941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4F39E97-6000-417C-96D2-C8BA213FD941}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B4F39E97-6000-417C-96D2-C8BA213FD941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4F39E97-6000-417C-96D2-C8BA213FD941}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4F39E97-6000-417C-96D2-C8BA213FD941}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
