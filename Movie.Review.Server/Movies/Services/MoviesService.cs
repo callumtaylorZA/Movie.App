@@ -1,4 +1,5 @@
-﻿using Movie.DataAccess.Repo.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using Movie.DataAccess.Repo.Interfaces;
 using Movie.Review.Server.Movie.Interfaces;
 using Movie.Server.Movie.Models;
 using Movies.Server.Movies.Mapping;
@@ -14,14 +15,65 @@ namespace Movie.Review.Server.Movie.Services
             _movieRepo = moviesRepo;
         }
 
-        public async Task<MovieDto[]> GetAllMovies()
+        public async Task<IResult> AddMovie(MovieDto movie)
         {
-            return (await _movieRepo.GetMovies()).Select(x => x.MapToMovieDto()).ToArray();
+            try
+            {
+                await _movieRepo.InsertMovie(movie.MapToMovieEntity());
+                return Results.CreatedAtRoute(movie);
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(ex.Message);
+            }
         }
 
-        public async Task<MovieDto?> GetMovieById(Guid id)
+        public async Task<IResult> DisableMovie(Guid movieId)
         {
-            return (await _movieRepo.GetMovieById(id))?.MapToMovieDto() ?? null;
+            try
+            {
+                await _movieRepo.DisableMovie(movieId);
+                return Results.Ok();
+            }
+        }
+
+        public async Task<IResult> GetAllMovies()
+        {
+            try
+            {
+                var results = (await _movieRepo.GetMovies()).Select(x => x.MapToMovieDto()).ToArray();
+
+                return results.Any() ? Results.Ok(results) : Results.NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(ex.Message);
+            }
+        }
+
+        public async Task<IResult> GetMovieById(Guid id)
+        {
+            try
+            {
+                return Results.Ok((await _movieRepo.GetMovieById(id))?.MapToMovieDto()) ?? Results.NotFound();
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(ex.Message);
+            }
+        }
+
+        public async Task<IResult> UpdateMovie(MovieDto movie)
+        {
+            try
+            {
+                await _movieRepo.UpdateMovie(movie.MapToMovieEntity();
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(ex.Message);
+            }
         }
     }
 }

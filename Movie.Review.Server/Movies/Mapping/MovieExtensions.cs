@@ -15,5 +15,16 @@ namespace Movies.Server.Movies.Mapping
                 RatingId = movieEntity.RatingId,
             };
         }
+
+        public static MovieEntity MapToMovieEntity(this MovieDto movieDto)
+        {
+            return new MovieEntity
+            {
+                Id = movieDto.Id,
+                Name = movieDto.Name,
+                CategoryId = movieDto.CategoryId,
+                RatingId = movieDto.RatingId,
+            };
+        }
     }
 }

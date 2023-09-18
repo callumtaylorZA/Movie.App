@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Movie.DataAccess.Repo.Interfaces;
 using Movie.Review.Server.Common.Interfaces;
 using Movie.Review.Server.Movie.Interfaces;
+using Movie.Server.Movie.Models;
 
 namespace Movie.Review.Server.Movie
 {
@@ -13,41 +15,31 @@ namespace Movie.Review.Server.Movie
             app.MapGet($"{baseUrl}", async (
                 HttpContext httpContext,
                 [FromServices] IMoviesService moviesService) =>
-            {
-                try
-                {
-                    var results = await moviesService.GetAllMovies();
-
-                    if (results.Any())
-                        return Results.Ok(results);
-
-                    return Results.NoContent();
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem(ex.Message);
-                }
-            });
+                    await moviesService.GetAllMovies());
 
             app.MapGet($"{baseUrl}/{{movieId}}", async (
                 HttpContext httpContext,
                 [FromServices] IMoviesService moviesService,
-                [FromRoute] Guid movieId) =>
-            {
-                try
-                {
-                    var result = await moviesService.GetMovieById(movieId);
+                [FromRoute] Guid movieId) => 
+                    await moviesService.GetMovieById(movieId));
 
-                    if (result is null)
-                        return Results.NotFound();
+            app.MapPost($"{baseUrl}", async (
+                [FromServices] IMoviesService moviesService,
+                [FromBody] MovieDto movieDto) =>
+                    await moviesService.AddMovie(movieDto));
 
-                    return Results.Ok(result);
-                }
-                catch (Exception ex)
-                {
-                    return Results.Problem(ex.Message);
-                }
-            });
+            app.MapPut($"{baseUrl}", async (
+                [FromServices] IMoviesService moviesService,
+                [FromBody] Guid movieId) => 
+                    await moviesService.DisableMovie(movieId));
+
+            app.MapGet($"{baseUrl}/categories", async (
+                [FromServices] ILookupRepo lookupRepo) =>
+                    (await lookupRepo.GetCategories()).ToList());
+
+            app.MapGet($"{baseUrl}/ratings", async (
+                [FromServices] ILookupRepo lookupRepo) =>
+                    (await lookupRepo.GetRatings()).ToList());
 
             return app;
         }
