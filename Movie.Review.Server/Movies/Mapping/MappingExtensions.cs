@@ -3,7 +3,7 @@ using Movie.Server.Movie.Models;
 
 namespace Movies.Server.Movies.Mapping
 {
-    public static class MovieExtensions
+    public static class MappingExtensions
     {
         public static MovieDto MapToMovieDto(this MovieEntity movieEntity)
         {
@@ -20,7 +20,7 @@ namespace Movies.Server.Movies.Mapping
         {
             return new MovieEntity
             {
-                Id = movieDto.Id,
+                Id = movieDto?.Id ?? Guid.Empty,
                 Name = movieDto.Name,
                 CategoryId = movieDto.CategoryId,
                 RatingId = movieDto.RatingId,

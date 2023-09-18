@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Movie.DataAccess.Repo.Interfaces;
 using Movie.Review.Server.Common.Interfaces;
 using Movie.Review.Server.Movie.Interfaces;
 using Movie.Server.Movie.Models;
@@ -26,20 +25,17 @@ namespace Movie.Review.Server.Movie
             app.MapPost($"{baseUrl}", async (
                 [FromServices] IMoviesService moviesService,
                 [FromBody] MovieDto movieDto) =>
-                    await moviesService.AddMovie(movieDto));
+                    await moviesService.AddMovie(movieDto, baseUrl));
 
             app.MapPut($"{baseUrl}", async (
                 [FromServices] IMoviesService moviesService,
-                [FromBody] Guid movieId) => 
+                [FromBody] MovieDto movieDto) =>
+                    await moviesService.UpdateMovie(movieDto));
+
+            app.MapDelete($"{baseUrl}/{{movieId}}", async (
+                [FromServices] IMoviesService moviesService,
+                [FromRoute] Guid movieId) => 
                     await moviesService.DisableMovie(movieId));
-
-            app.MapGet($"{baseUrl}/categories", async (
-                [FromServices] ILookupRepo lookupRepo) =>
-                    (await lookupRepo.GetCategories()).ToList());
-
-            app.MapGet($"{baseUrl}/ratings", async (
-                [FromServices] ILookupRepo lookupRepo) =>
-                    (await lookupRepo.GetRatings()).ToList());
 
             return app;
         }

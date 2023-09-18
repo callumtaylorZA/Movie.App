@@ -9,7 +9,7 @@ namespace Movie.Review.Server.Movie.Interfaces
 
         public Task<IResult> GetMovieById(Guid id);
 
-        public Task<IResult> AddMovie(MovieDto movie);
+        public Task<IResult> AddMovie(MovieDto movie, string route);
 
         public Task<IResult> UpdateMovie(MovieDto movie);
 

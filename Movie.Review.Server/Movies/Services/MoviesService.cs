@@ -2,6 +2,7 @@
 using Movie.DataAccess.Repo.Interfaces;
 using Movie.Review.Server.Movie.Interfaces;
 using Movie.Server.Movie.Models;
+using Movie.Server.Movies.Validation;
 using Movies.Server.Movies.Mapping;
 
 namespace Movie.Review.Server.Movie.Services
@@ -15,12 +16,17 @@ namespace Movie.Review.Server.Movie.Services
             _movieRepo = moviesRepo;
         }
 
-        public async Task<IResult> AddMovie(MovieDto movie)
+        public async Task<IResult> AddMovie(MovieDto movie, string route)
         {
             try
             {
+                if (!movie.IsAddRequestValid())
+                {
+                    return Results.BadRequest();
+                }
+
                 await _movieRepo.InsertMovie(movie.MapToMovieEntity());
-                return Results.CreatedAtRoute(movie);
+                return Results.Created(route, movie);
             }
             catch (Exception ex)
             {
@@ -32,8 +38,17 @@ namespace Movie.Review.Server.Movie.Services
         {
             try
             {
+                if (movieId == Guid.Empty || (await _movieRepo.GetMovieById(movieId)) == null)
+                {
+                    return Results.NotFound();
+                }
+
                 await _movieRepo.DisableMovie(movieId);
                 return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(ex.Message);
             }
         }
 
@@ -51,11 +66,18 @@ namespace Movie.Review.Server.Movie.Services
             }
         }
 
-        public async Task<IResult> GetMovieById(Guid id)
+        public async Task<IResult> GetMovieById(Guid movieId)
         {
             try
             {
-                return Results.Ok((await _movieRepo.GetMovieById(id))?.MapToMovieDto()) ?? Results.NotFound();
+                if (movieId == Guid.Empty)
+                {
+                    return Results.BadRequest();
+                }
+
+                var movie = await _movieRepo.GetMovieById(movieId);
+
+                return movie is not null ? Results.Ok(movie.MapToMovieDto()) : Results.NotFound();
             }
             catch (Exception ex)
             {
@@ -67,7 +89,12 @@ namespace Movie.Review.Server.Movie.Services
         {
             try
             {
-                await _movieRepo.UpdateMovie(movie.MapToMovieEntity();
+                if (!movie.IsUpdateRequestValid() || (await _movieRepo.GetMovieById(movie.Id.Value)) == null)
+                {
+                    return Results.BadRequest();
+                }
+
+                await _movieRepo.UpdateMovie(movie.MapToMovieEntity());
                 return Results.Ok();
             }
             catch (Exception ex)
