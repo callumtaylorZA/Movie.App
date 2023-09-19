@@ -1,8 +1,9 @@
 import { BASE_URL } from 'src/app/constants';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Movie } from '../models/movie';
+import { IMovie } from '../models/movie';
 import { Observable, catchError, of } from 'rxjs';
+import { Guid } from 'typescript-guid';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,11 @@ export class MovieService {
 
   constructor(private httpClient:HttpClient) { }
 
-  getMovies(): Observable<Movie[]> {
-    return this.httpClient.get<Movie[]>(this.url);
+  getMovies(): Observable<IMovie[]> {
+    return this.httpClient.get<IMovie[]>(this.url);
+  }
+
+  deleteMovie(id: Guid): Observable<any> {
+    return this.httpClient.delete(`${this.url}/${id.toString()}`);
   }
 }

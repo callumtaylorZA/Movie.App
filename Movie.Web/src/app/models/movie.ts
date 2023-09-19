@@ -1,8 +1,10 @@
 import { Guid } from "typescript-guid"
+import { ICategory } from "./category";
+import { IRating } from "./rating";
 
-export interface Movie {
+export interface IMovie {
   id: Guid;
   name: string;
-  categoryId: number;
-  ratingId: number;
+  categoryId: number | ICategory;
+  ratingId: number | IRating;
 }
