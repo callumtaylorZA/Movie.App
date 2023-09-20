@@ -20,4 +20,12 @@ export class MovieService {
   deleteMovie(id: Guid): Observable<any> {
     return this.httpClient.delete(`${this.url}/${id.toString()}`);
   }
+
+  updateMovie(movie: IMovie): Observable<IMovie> {
+    return this.httpClient.put<IMovie>(`${this.url}`, movie);
+  }
+
+  addMovie(movie: IMovie): Observable<IMovie> {
+    return this.httpClient.post<IMovie>(`${this.url}`, movie);
+  }
 }

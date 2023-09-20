@@ -1,8 +1,7 @@
-<div class="flex-container">
-  <ag-grid-angular (gridReady)="onGridReady($event)"
-                   style="height: 80%; width: 620px; position: absolute;"
-                   class="ag-theme-alpine-dark"
-                   [rowData]="movieRows"
-                   [columnDefs]="movieDefs">
-  </ag-grid-angular>
-</div>
+<ag-grid-angular (gridReady)="onGridReady($event)"
+                 style="height: 80%; width: 100%; position: absolute;"
+                 class="ag-theme-alpine-dark"
+                 [rowData]="movieRows"
+                 [columnDefs]="movieDefs"
+                 [components]="components">
+</ag-grid-angular>

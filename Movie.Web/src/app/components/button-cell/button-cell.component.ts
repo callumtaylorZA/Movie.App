@@ -23,7 +23,6 @@ export class ButtonCellComponent implements ICellRendererAngularComp {
   }
 
   refresh(params: ICellRendererParams<IMovie, any, any>): boolean {
-    console.log(params.data);
     return false;
   }
 

@@ -2,7 +2,17 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
 import { AgGridModule } from 'ag-grid-angular';
-import { DialogModule } from '@angular/cdk/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 import { AppComponent } from './app.component';
 import { MovieComponent } from './components/movie/movie.component';
@@ -12,6 +22,8 @@ import { ButtonCellComponent } from './components/button-cell/button-cell.compon
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditDialogComponent } from './components/dialogs/edit-dialog/edit-dialog.component';
+import { AddDialogComponent } from './components/dialogs/add-dialog/add-dialog.component';
+import { ColumnHeaderComponent } from './components/column-header/column-header.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +32,9 @@ import { EditDialogComponent } from './components/dialogs/edit-dialog/edit-dialo
     HeaderComponent,
     ButtonComponent,
     ButtonCellComponent,
-    EditDialogComponent
+    EditDialogComponent,
+    AddDialogComponent,
+    ColumnHeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +42,18 @@ import { EditDialogComponent } from './components/dialogs/edit-dialog/edit-dialo
     AgGridModule,
     FontAwesomeModule,
     BrowserAnimationsModule,
-    DialogModule
+    MatDialogModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatDividerModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
 import { IMovie } from '../../models/movie';
 import { ColDef, GridApi, GridReadyEvent, ValueGetterParams } from 'ag-grid-community';
@@ -8,8 +8,10 @@ import { ButtonCellComponent } from '../button-cell/button-cell.component';
 import { firstValueFrom } from 'rxjs';
 import { LookupService } from '../../services/lookup.service';
 import { Guid } from 'typescript-guid';
-import { Dialog } from "@angular/cdk/dialog";
 import { EditDialogComponent } from '../dialogs/edit-dialog/edit-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AddDialogComponent } from '../dialogs/add-dialog/add-dialog.component';
+import { ColumnHeaderComponent } from '../column-header/column-header.component';
 
 @Component({
   selector: 'app-movie',
@@ -26,27 +28,47 @@ export class MovieComponent implements OnInit {
   movieDefs: ColDef[] = [
     {
       headerName: 'No.',
-      maxWidth: 58,
+      maxWidth: 60,
       valueGetter: this.getRowIndex,
+      headerComponentParams: {
+        showIcon: false,
+        label: "No."
+      },
     },
     {
       field: 'name',
       maxWidth: 300,
-      minWidth: 220
+      minWidth: 220,
+      headerComponentParams: {
+        showIcon: false,
+        label: "Name"
+      },
     },
     {
       headerName: 'Category',
       maxWidth: 120,
+      headerComponentParams: {
+        showIcon: false,
+        label: "Category"
+      },
       valueGetter: this.getCategoryName,
     },
     {
       headerName: 'Rating',
       maxWidth: 120,
+      headerComponentParams: {
+        showIcon: false,
+        label: "Rating"
+      },
       valueGetter: this.getRatingName,
     },
     {
       field: 'options',
-      maxWidth: 100,
+      maxWidth: 120,
+      headerComponentParams: {
+        onAddMovie: () => { this.addMovie(); },
+        showIcon: true,
+        label: "Add " }, 
       cellRenderer: ButtonCellComponent,
       cellRendererParams: {
         onDeleteMovie: (id: Guid) => { this.deleteMovie(id); },
@@ -55,12 +77,15 @@ export class MovieComponent implements OnInit {
     },
   ];
 
+  public components: { [p: string]: any; } = { agColumnHeader: ColumnHeaderComponent, };
+
   movieRows: IMovie[] = [];
 
   constructor(
     private movieService: MovieService,
     private lookupService: LookupService,
-    public editDialog: Dialog) { }
+    public addDialog: MatDialog,
+    public editDialog: MatDialog) { }
 
   ngOnInit(): void { }
 
@@ -105,8 +130,30 @@ export class MovieComponent implements OnInit {
   }
 
   editMovie(id: Guid): void {
+    const movieIndex = this.movieRows.findIndex(m => m.id === id);
     const editDialog = this.editDialog.open(
       EditDialogComponent,
-      { minWidth: '100px', data: this.movieRows.find(m => m.id === id) })
+      { minWidth: '100px', data: [this.movieRows[movieIndex], this.movieCategories, this.movieRatings] });
+
+    editDialog.afterClosed().subscribe(x => {
+      this.movieRows[movieIndex] = x;
+      this.gridApi.setRowData(this.movieRows);
+    });
+  }
+
+  addMovie(): void {
+    const addDialog = this.addDialog.open(
+      AddDialogComponent,
+      { minWidth: '100px', data: [this.movieCategories, this.movieRatings] });
+
+    addDialog.afterClosed().subscribe(x => {
+      this.movieRows.push({
+        id: x.id,
+        name: x.name,
+        categoryId: <ICategory>this.movieCategories.find(c => c.id === x.categoryId),
+        ratingId: <IRating>this.movieRatings.find(c => c.id === x.ratingId)
+      });
+      this.gridApi.setRowData(this.movieRows);
+    })
   }
 }

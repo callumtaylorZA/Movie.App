@@ -1,3 +1,12 @@
-<header>
-  <h3>Movies</h3>
-</header>
+<mat-toolbar style="color: whitesmoke; background-color: darkslategrey;">
+  <header>
+    <h1>Movies App</h1>
+  </header>
+  <span class="spacer"></span>
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="float-right">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" style="background-color: darkslategrey;">
+  </mat-menu>
+</mat-toolbar>
+

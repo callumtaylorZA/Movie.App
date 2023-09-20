@@ -6,6 +6,6 @@
   flex: 50%;
 }
 
-.spacer {
-  flex: 1 1 auto;
+.bt-cancel {
+  float: right;
 }
