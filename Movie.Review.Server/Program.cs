@@ -4,6 +4,8 @@ using Movie.DataAccess.Repo.Interfaces;
 using Movie.Review.Server.Common.Interfaces;
 using Movie.Review.Server.Movie.Interfaces;
 using Movie.Review.Server.Movie.Services;
+using Movie.Server.Movies.Interfaces;
+using Movie.Server.Movies.Validation;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,7 @@ var controllers = Assembly.GetExecutingAssembly()
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddSingleton<ILookupRepo, LookupRepo>();
 builder.Services.AddSingleton<IMoviesRepo, MoviesRepo>();
+builder.Services.AddSingleton<IValidation, Validation>();
 builder.Services.AddSingleton<IMoviesService, MoviesService>();
 
 builder.Services.AddEndpointsApiExplorer();

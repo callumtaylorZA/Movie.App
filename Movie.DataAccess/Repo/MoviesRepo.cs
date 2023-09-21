@@ -14,7 +14,8 @@ namespace Movie.DataAccess.Repo
         }
 
         public async Task<IEnumerable<MovieEntity>> GetMovies() =>
-            await _sqlDataAccess.LoadData<MovieEntity, object>("dbo.sp_Movie_GetAll", new { });
+            await _sqlDataAccess.LoadData<MovieEntity, object>(
+                "dbo.sp_Movie_GetAll", new { });
 
         public async Task<MovieEntity?> GetMovieById(Guid id) =>
             (await _sqlDataAccess.LoadData<MovieEntity, object>(
@@ -33,5 +34,9 @@ namespace Movie.DataAccess.Repo
         public async Task DisableMovie(Guid id) =>
             await _sqlDataAccess.SaveData(
                 "dbo.sp_Movie_Disable", new { Id = id });
+
+        public async Task<IEnumerable<string>> GetMovieNames() =>
+            await _sqlDataAccess.LoadData<string, object>(
+                "dbo.sp_Movie_GetAllNames", new { });
     }
 }

@@ -13,5 +13,7 @@ namespace Movie.DataAccess.Repo.Interfaces
         public Task UpdateMovie(MovieEntity movieEntity);
 
         public Task DisableMovie(Guid id);
+
+        public Task<IEnumerable<string>> GetMovieNames();
     }
 }

@@ -82,6 +82,7 @@ namespace Movie.Server.Tests.Movies
         #region AddMovie
 
         [Test]
+        [Order(1)]
         public async Task AddMovie_Test_Valid()
         {
             // Arrange
@@ -98,6 +99,26 @@ namespace Movie.Server.Tests.Movies
             // Assert
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
+
+        [Test]
+        [Order(2)]
+        public async Task AddMovie_TestTakenName_BadRequest()
+        {
+            // Arrange
+            var request = new MovieDto
+            {
+                Name = "Test",
+                CategoryId = (int)Categories.Adventure,
+                RatingId = (int)Ratings.Incredible,
+            };
+
+            // Act
+            var result = await _httpClient.PostAsJsonAsync(new Uri(url), request);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Test]
@@ -181,6 +202,28 @@ namespace Movie.Server.Tests.Movies
             // Assert
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Test]
+        public async Task UpdateMovie_TestTakenName_BadRequest()
+        {
+            // Arrange
+            var movieId = (await _httpClient.GetFromJsonAsync<List<MovieDto>>(new Uri(url)))?.FirstOrDefault()?.Id;
+
+            var request = new MovieDto
+            {
+                Id = movieId,
+                Name = "There there",
+                CategoryId = (int)Categories.Adventure,
+                RatingId = (int)Ratings.Good,
+            };
+
+            // Act
+            var result = await _httpClient.PutAsJsonAsync(new Uri(url), request);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Test]

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Movie.DataAccess.Repo.Interfaces;
+﻿using Movie.DataAccess.Repo.Interfaces;
 using Movie.Review.Server.Movie.Interfaces;
 using Movie.Server.Movie.Models;
+using Movie.Server.Movies.Interfaces;
 using Movie.Server.Movies.Validation;
 using Movies.Server.Movies.Mapping;
 
@@ -10,10 +10,14 @@ namespace Movie.Review.Server.Movie.Services
     public class MoviesService : IMoviesService
     {
         private readonly IMoviesRepo _movieRepo;
+        private readonly IValidation _validation;
 
-        public MoviesService(IMoviesRepo moviesRepo)
+        public MoviesService(
+            IMoviesRepo moviesRepo,
+            IValidation validation)
         {
             _movieRepo = moviesRepo;
+            _validation = validation;
         }
 
         public async Task<IResult> AddMovie(MovieDto movie, string route)
@@ -23,6 +27,11 @@ namespace Movie.Review.Server.Movie.Services
                 if (!movie.IsAddRequestValid())
                 {
                     return Results.BadRequest();
+                }
+
+                if (!await _validation.ValidateMovieName(movie.Name))
+                {
+                    return Results.BadRequest($"{nameof(movie.Name)}: {movie.Name}");
                 }
 
                 await _movieRepo.InsertMovie(movie.MapToMovieEntity());
@@ -92,6 +101,11 @@ namespace Movie.Review.Server.Movie.Services
                 if (!movie.IsUpdateRequestValid() || (await _movieRepo.GetMovieById(movie.Id.Value)) == null)
                 {
                     return Results.BadRequest();
+                }
+
+                if (!await _validation.ValidateMovieName(movie.Name))
+                {
+                    return Results.BadRequest($"{nameof(movie.Name)}: {movie.Name}");
                 }
 
                 await _movieRepo.UpdateMovie(movie.MapToMovieEntity());

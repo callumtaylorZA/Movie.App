@@ -73,6 +73,7 @@
     <Build Include="dbo\StoredProcedures\sp_Category_GetAll.sql" />
     <Build Include="dbo\StoredProcedures\sp_Rating_GetAll.sql" />
     <Build Include="dbo\StoredProcedures\sp_Movie_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\sp_Movie_GetAllNames.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Post\Script.PostDeployment.sql" />
