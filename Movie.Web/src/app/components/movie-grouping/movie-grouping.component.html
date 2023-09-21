@@ -1,0 +1,8 @@
+<div class="row">
+  <h3 class="grid-heading">Movies Grouped By Rating</h3>
+</div>
+<ag-grid-angular (gridReady)="onGridReady($event)"
+                 class="ag-theme-alpine-dark movie-grid"
+                 [rowData]="movieGroupRows"
+                 [columnDefs]="movieGroupDefs">
+</ag-grid-angular>

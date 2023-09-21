@@ -6,14 +6,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { MovieComponent } from './components/movie/movie.component';
@@ -26,6 +27,12 @@ import { EditDialogComponent } from './components/dialogs/edit-dialog/edit-dialo
 import { AddDialogComponent } from './components/dialogs/add-dialog/add-dialog.component';
 import { ColumnHeaderComponent } from './components/column-header/column-header.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { MovieGroupingComponent } from './components/movie-grouping/movie-grouping.component';
+
+const appRoutes: Routes = [
+  { path: '', component: MovieComponent },
+  { path: 'group-by-rating', component: MovieGroupingComponent }
+];
 
 @NgModule({
   declarations: [
@@ -37,7 +44,8 @@ import { ConfirmationDialogComponent } from './components/dialogs/confirmation-d
     EditDialogComponent,
     AddDialogComponent,
     ColumnHeaderComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    MovieGroupingComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +65,8 @@ import { ConfirmationDialogComponent } from './components/dialogs/confirmation-d
     MatToolbarModule,
     MatMenuModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]
