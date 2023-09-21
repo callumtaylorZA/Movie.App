@@ -28,10 +28,13 @@ import { AddDialogComponent } from './components/dialogs/add-dialog/add-dialog.c
 import { ColumnHeaderComponent } from './components/column-header/column-header.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MovieGroupingComponent } from './components/movie-grouping/movie-grouping.component';
+import { HighestRatedComponent } from './components/highest-rated/highest-rated.component';
+import { MovieCardComponent } from './components/movie-card/movie-card.component';
 
 const appRoutes: Routes = [
   { path: '', component: MovieComponent },
-  { path: 'group-by-rating', component: MovieGroupingComponent }
+  { path: 'group-by-rating', component: MovieGroupingComponent },
+  { path: 'highest-rated', component: HighestRatedComponent }
 ];
 
 @NgModule({
@@ -45,7 +48,9 @@ const appRoutes: Routes = [
     AddDialogComponent,
     ColumnHeaderComponent,
     ConfirmationDialogComponent,
-    MovieGroupingComponent
+    MovieGroupingComponent,
+    HighestRatedComponent,
+    MovieCardComponent
   ],
   imports: [
     BrowserModule,

@@ -12,12 +12,10 @@ namespace Movie.Review.Server.Movie
         public WebApplication SetupController(WebApplication app)
         {
             app.MapGet($"{baseUrl}", async (
-                HttpContext httpContext,
                 [FromServices] IMoviesService moviesService) =>
                     await moviesService.GetAllMovies());
 
             app.MapGet($"{baseUrl}/{{movieId}}", async (
-                HttpContext httpContext,
                 [FromServices] IMoviesService moviesService,
                 [FromRoute] Guid movieId) => 
                     await moviesService.GetMovieById(movieId));
@@ -36,6 +34,10 @@ namespace Movie.Review.Server.Movie
                 [FromServices] IMoviesService moviesService,
                 [FromRoute] Guid movieId) => 
                     await moviesService.DisableMovie(movieId));
+
+            app.MapGet($"{baseUrl}/highest-rating", async (
+                [FromServices] IMoviesService moviesService) =>
+                    await moviesService.GetHighestRatedMovies());
 
             return app;
         }

@@ -183,4 +183,8 @@ export class MovieComponent implements OnInit {
       (document.getElementById('filter-text-box') as HTMLInputElement).value
     );
   }
+
+  onDownload() {
+    this.gridApi.exportDataAsCsv();
+  }
 }

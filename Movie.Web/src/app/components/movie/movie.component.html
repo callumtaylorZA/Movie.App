@@ -3,10 +3,16 @@
 </div>
 <div>
   <input matInput type="text"
-          id="filter-text-box"
-          placeholder="Filter movies..."
-          style="background-color: lightgrey; margin-left: 16px; margin-bottom: 8px; height: 20px;"
-          (input)="onFilterTextBoxChanged()" />
+         id="filter-text-box"
+         placeholder="Filter movies..."
+         style="background-color: lightgrey; margin-left: 16px; margin-bottom: 8px; height: 20px;"
+         (input)="onFilterTextBoxChanged()" />
+  <button *ngIf="movieRows"
+          mat-button
+          style="background-color: #222628; color: whitesmoke; margin-right: 16px; float: right;"
+          (click)="onDownload()">
+    Download CSV
+  </button>
 </div>
 <ag-grid-angular (gridReady)="onGridReady($event)"
                  [cacheQuickFilter]="true"

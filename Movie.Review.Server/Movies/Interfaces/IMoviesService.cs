@@ -14,5 +14,7 @@ namespace Movie.Review.Server.Movie.Interfaces
         public Task<IResult> UpdateMovie(MovieDto movie);
 
         public Task<IResult> DisableMovie(Guid movieId);
+
+        public Task<IResult> GetHighestRatedMovies();
     }
 }

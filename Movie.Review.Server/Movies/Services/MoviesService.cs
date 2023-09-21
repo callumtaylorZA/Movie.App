@@ -75,6 +75,23 @@ namespace Movie.Review.Server.Movie.Services
             }
         }
 
+        public async Task<IResult> GetHighestRatedMovies()
+        {
+            try
+            {
+                var movies = (await _movieRepo.GetMovies())
+                    .GroupBy(x => x.RatingId)
+                    .OrderByDescending(x => x.Key)
+                    .FirstOrDefault()?.ToList() ?? null;
+
+                return movies is not null ? Results.Ok(movies.Select(x => x.MapToMovieDto())) : Results.NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(ex.Message);
+            }
+        }
+
         public async Task<IResult> GetMovieById(Guid movieId)
         {
             try

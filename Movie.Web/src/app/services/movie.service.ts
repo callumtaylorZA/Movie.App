@@ -28,4 +28,8 @@ export class MovieService {
   addMovie(movie: IMovie): Observable<IMovie> {
     return this.httpClient.post<IMovie>(`${this.url}`, movie);
   }
+
+  getHighestRated(): Observable<IMovie[]> {
+    return this.httpClient.get<IMovie[]>(`${this.url}/highest-rating`);
+  }
 }
