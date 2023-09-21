@@ -12,6 +12,7 @@ import { EditDialogComponent } from '../dialogs/edit-dialog/edit-dialog.componen
 import { MatDialog } from '@angular/material/dialog';
 import { AddDialogComponent } from '../dialogs/add-dialog/add-dialog.component';
 import { ColumnHeaderComponent } from '../column-header/column-header.component';
+import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-movie',
@@ -55,7 +56,7 @@ export class MovieComponent implements OnInit {
     },
     {
       headerName: 'Rating',
-      maxWidth: 120,
+      maxWidth: 130,
       headerComponentParams: {
         showIcon: false,
         label: "Rating"
@@ -64,7 +65,7 @@ export class MovieComponent implements OnInit {
     },
     {
       field: 'options',
-      maxWidth: 120,
+      maxWidth: 170,
       headerComponentParams: {
         onAddMovie: () => { this.addMovie(); },
         showIcon: true,
@@ -85,7 +86,8 @@ export class MovieComponent implements OnInit {
     private movieService: MovieService,
     private lookupService: LookupService,
     public addDialog: MatDialog,
-    public editDialog: MatDialog) { }
+    public editDialog: MatDialog,
+    public confirmDialog: MatDialog) { }
 
   ngOnInit(): void { }
 
@@ -119,14 +121,25 @@ export class MovieComponent implements OnInit {
   }
 
   getRatingName(params: ValueGetterParams) {
-    return ((params.data as IMovie).ratingId as IRating).name;
+    const rating = ((params.data as IMovie).ratingId as IRating);
+    return `(${rating.id}) ${rating.name}`;
   }
 
   deleteMovie(id: Guid): void {
-    this.movieService.deleteMovie(id).subscribe(_ => {
-      this.movieRows = this.movieRows.filter(m => m.id !== id);
-      this.gridApi.setRowData(this.movieRows);
-    })
+    const movieName = this.movieRows.find(x => x.id === id)?.name;
+
+    const confirmDialog = this.confirmDialog.open(
+      ConfirmationDialogComponent,
+      { minWidth: '100px', data: ['Delete', `Are you sure you want to remove ${movieName}?`] });
+
+    confirmDialog.afterClosed().subscribe(r => {
+      if (r === true) {
+        this.movieService.deleteMovie(id).subscribe(_ => {
+          this.movieRows = this.movieRows.filter(m => m.id !== id);
+          this.gridApi.setRowData(this.movieRows);
+        });
+      }
+    });
   }
 
   editMovie(id: Guid): void {
@@ -136,6 +149,10 @@ export class MovieComponent implements OnInit {
       { minWidth: '100px', data: [this.movieRows[movieIndex], this.movieCategories, this.movieRatings] });
 
     editDialog.afterClosed().subscribe(x => {
+      if (x === false || x === undefined) {
+        return;
+      }
+
       this.movieRows[movieIndex] = x;
       this.gridApi.setRowData(this.movieRows);
     });
@@ -147,6 +164,10 @@ export class MovieComponent implements OnInit {
       { minWidth: '100px', data: [this.movieCategories, this.movieRatings] });
 
     addDialog.afterClosed().subscribe(x => {
+      if (x === false || x === undefined) {
+        return;
+      }
+
       this.movieRows.push({
         id: x.id,
         name: x.name,
@@ -155,5 +176,11 @@ export class MovieComponent implements OnInit {
       });
       this.gridApi.setRowData(this.movieRows);
     })
+  }
+
+  onFilterTextBoxChanged() {
+    this.gridApi.setQuickFilter(
+      (document.getElementById('filter-text-box') as HTMLInputElement).value
+    );
   }
 }

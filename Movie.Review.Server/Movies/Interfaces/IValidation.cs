@@ -2,6 +2,6 @@
 {
     public interface IValidation
     {
-        public Task<bool> ValidateMovieName(string name);
+        public Task<bool> ValidateMovieName(string name, Guid id);
     }
 }

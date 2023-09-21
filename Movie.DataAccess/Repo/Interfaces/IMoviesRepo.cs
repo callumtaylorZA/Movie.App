@@ -14,6 +14,6 @@ namespace Movie.DataAccess.Repo.Interfaces
 
         public Task DisableMovie(Guid id);
 
-        public Task<IEnumerable<string>> GetMovieNames();
+        public Task<IEnumerable<string>> GetMovieNamesExcluding(Guid movieId);
     }
 }

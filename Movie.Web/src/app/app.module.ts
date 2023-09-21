@@ -13,6 +13,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
 import { MovieComponent } from './components/movie/movie.component';
@@ -24,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditDialogComponent } from './components/dialogs/edit-dialog/edit-dialog.component';
 import { AddDialogComponent } from './components/dialogs/add-dialog/add-dialog.component';
 import { ColumnHeaderComponent } from './components/column-header/column-header.component';
+import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { ColumnHeaderComponent } from './components/column-header/column-header.
     ButtonCellComponent,
     EditDialogComponent,
     AddDialogComponent,
-    ColumnHeaderComponent
+    ColumnHeaderComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,8 @@ import { ColumnHeaderComponent } from './components/column-header/column-header.
     MatDividerModule,
     MatToolbarModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

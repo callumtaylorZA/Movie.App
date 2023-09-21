@@ -1,5 +1,13 @@
+<div style="background-color: #181d1f;">
+  <input matInput type="text"
+          id="filter-text-box"
+          placeholder="Filter movies..."
+          style="background-color: lightgrey; margin: 12px;"
+          (input)="onFilterTextBoxChanged()" />
+</div>
 <ag-grid-angular (gridReady)="onGridReady($event)"
-                 style="height: 80%; width: 100%; position: absolute;"
+                 [cacheQuickFilter]="true"
+                 style="height: 85%; width: 100%; position: absolute;"
                  class="ag-theme-alpine-dark"
                  [rowData]="movieRows"
                  [columnDefs]="movieDefs"

@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Confirm {{ type }}</h2>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+  <span>{{ message }}</span>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" style="background-color: #181d1f;" (click)="yes()">Yes</button>
+    <button mat-raised-button
+            align="end"
+            color="warn"
+            style="float: right;"
+            (click)="no()">
+      No
+    </button>
+  </div>
+</div>

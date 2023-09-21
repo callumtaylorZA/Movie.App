@@ -14,16 +14,19 @@
   <mat-form-field class="row">
     <mat-label>Rating</mat-label>
     <mat-select [formControl]="ratingControl">
-      <mat-option *ngFor="let rating of ratings" [value]="rating">{{ rating.name }}</mat-option>
+      <mat-option *ngFor="let rating of ratings" [value]="rating">{{ rating.name }} ({{ rating.id }})</mat-option>
     </mat-select>
   </mat-form-field>
   <div mat-dialog-actions>
-    <button mat-raised-button color="primary" (click)="save()">Save</button>
+    <button mat-raised-button
+            color="primary"
+            [disabled]="!canSave()"
+            (click)="save()">Save</button>
     <button mat-raised-button
             align="end"
             color="warn"
             style="float: right;"
-            (click)="dialogRef.close()">
+            (click)="close()">
       Cancel
     </button>
   </div>

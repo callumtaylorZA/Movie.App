@@ -6,6 +6,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ICategory } from '../../../models/category';
 import { IRating } from '../../../models/rating';
 import { MovieService } from '../../../services/movie.service';
+import { catchError, of } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-edit-dialog',
@@ -25,6 +27,7 @@ export class EditDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<EditDialogComponent>,
     @Inject(DIALOG_DATA) public data: [IMovie, ICategory[], IRating[]],
+    private errorSnackBar: MatSnackBar,
     private movieService: MovieService) {
 
     this.movie = data[0];
@@ -34,6 +37,10 @@ export class EditDialogComponent {
     this.categoryControl.setValue(<ICategory>data[0].categoryId);
     this.ratingControl.setValue(<IRating>data[0].ratingId);
   };
+
+  canSave(): boolean {
+    return this.nameControl.valid && this.categoryControl.valid && this.ratingControl.valid;
+  }
 
   save(): void {
     this.movie.name = this.nameControl.value ? this.nameControl.value : this.movie.name;
@@ -45,8 +52,22 @@ export class EditDialogComponent {
       name: this.movie.name,
       categoryId: (<ICategory>this.movie.categoryId).id,
       ratingId: (<IRating>this.movie.ratingId).id
-    }).subscribe(() => {
-      this.dialogRef.close(this.movie);
+    }).pipe(catchError(error => {
+      if (error.status === 400) {
+        this.nameControl.setErrors({ 'invalid': true });
+        this.errorSnackBar.open(error.error, "close");
+      }
+
+      return of(false);
+    }))
+      .subscribe(r => {
+        if (r === true) {
+          this.dialogRef.close(this.movie);
+        }
     });
+  }
+
+  close(): void {
+    this.dialogRef.close(false);
   }
 }

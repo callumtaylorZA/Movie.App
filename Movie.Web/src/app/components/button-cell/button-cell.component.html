@@ -1,7 +1,11 @@
-<fa-icon [icon]="faEdit"
-         style="font-size: 14pt; margin-left: 6px"
-         (click)="btnClickedEdit()"></fa-icon>
-<fa-icon [icon]="faTimesSquare"
-         style="font-size: 14pt; margin-left: 12px;"
-         (click)="btnClickedDelete()">
-</fa-icon>
+<button mat-icon-button
+        color="basic"
+        (click)="btnClickedEdit()"
+        style="margin-left: 12px;">
+  <mat-icon>edit</mat-icon>
+</button>
+<button mat-icon-button
+        color="basic"
+        (click)="btnClickedDelete()">
+  <mat-icon>delete</mat-icon>
+</button>

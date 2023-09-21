@@ -35,8 +35,8 @@ namespace Movie.DataAccess.Repo
             await _sqlDataAccess.SaveData(
                 "dbo.sp_Movie_Disable", new { Id = id });
 
-        public async Task<IEnumerable<string>> GetMovieNames() =>
+        public async Task<IEnumerable<string>> GetMovieNamesExcluding(Guid movieId) =>
             await _sqlDataAccess.LoadData<string, object>(
-                "dbo.sp_Movie_GetAllNames", new { });
+                "dbo.sp_Movie_GetAllNames", new { Id = movieId });
     }
 }

@@ -14,9 +14,9 @@ namespace Movie.Server.Movies.Validation
             _moviesRepo = moviesRepo;
         }
 
-        public async Task<bool> ValidateMovieName(string name)
+        public async Task<bool> ValidateMovieName(string name, Guid id)
         {
-            return !(await _moviesRepo.GetMovieNames()).Contains(name);
+            return !(await _moviesRepo.GetMovieNamesExcluding(id)).Contains(name);
         }
     }
 

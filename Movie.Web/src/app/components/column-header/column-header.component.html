@@ -1,4 +1,9 @@
-<span>{{ label }}</span>
-<fa-icon *ngIf="showIcon" [icon]="faAdd"
-         style="font-size: 14pt; margin-left: 6px"
-         (click)="btnClickedAdd()"></fa-icon>
+<button *ngIf="showIcon"
+        mat-raised-button
+        color="basic"
+        style="background-color: #181d1f;"
+        (click)="btnClickedAdd()">
+  Add Movie
+  <mat-icon>add</mat-icon>
+</button>
+<span *ngIf="!showIcon">{{ label }}</span>

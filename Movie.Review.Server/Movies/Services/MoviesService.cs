@@ -29,9 +29,9 @@ namespace Movie.Review.Server.Movie.Services
                     return Results.BadRequest();
                 }
 
-                if (!await _validation.ValidateMovieName(movie.Name))
+                if (!await _validation.ValidateMovieName(movie.Name, Guid.Empty))
                 {
-                    return Results.BadRequest($"{nameof(movie.Name)}: {movie.Name}");
+                    return Results.BadRequest($"Movie name '{movie.Name}' already added.");
                 }
 
                 await _movieRepo.InsertMovie(movie.MapToMovieEntity());
@@ -103,9 +103,9 @@ namespace Movie.Review.Server.Movie.Services
                     return Results.BadRequest();
                 }
 
-                if (!await _validation.ValidateMovieName(movie.Name))
+                if (!await _validation.ValidateMovieName(movie.Name, movie.Id.Value))
                 {
-                    return Results.BadRequest($"{nameof(movie.Name)}: {movie.Name}");
+                    return Results.BadRequest($"Movie name '{movie.Name}' already exists.");
                 }
 
                 await _movieRepo.UpdateMovie(movie.MapToMovieEntity());
