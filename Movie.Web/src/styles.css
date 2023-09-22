@@ -16,12 +16,23 @@
   margin-top: 8px;
 }
 
+.movie-grid-card {
+  height: 65%;
+  width: 90%;
+  position: absolute;
+  margin: 8px;
+}
+
 .grid-heading {
   padding-top: 16px;
   padding-left: 16px;
   color: whitesmoke;
   font-size: 12pt;
   text-align: center;
+}
+
+.mdc-dialog__surface {
+  background-color: darkslategrey !important;
 }
 
 html, body {

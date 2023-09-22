@@ -30,6 +30,7 @@ import { ConfirmationDialogComponent } from './components/dialogs/confirmation-d
 import { MovieGroupingComponent } from './components/movie-grouping/movie-grouping.component';
 import { HighestRatedComponent } from './components/highest-rated/highest-rated.component';
 import { MovieCardComponent } from './components/movie-card/movie-card.component';
+import { MovieGridDialogComponent } from './components/dialogs/movie-grid-dialog/movie-grid-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: MovieComponent },
@@ -50,7 +51,8 @@ const appRoutes: Routes = [
     ConfirmationDialogComponent,
     MovieGroupingComponent,
     HighestRatedComponent,
-    MovieCardComponent
+    MovieCardComponent,
+    MovieGridDialogComponent
   ],
   imports: [
     BrowserModule,

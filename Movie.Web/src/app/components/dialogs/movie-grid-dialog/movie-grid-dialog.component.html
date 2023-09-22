@@ -1,0 +1,16 @@
+<div class="spacer">
+  <span mat-dialog-title>Movies with <i>{{ rating.name }} ({{ rating.id }})</i> rating.</span>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-content class="flex-container">
+  <ag-grid-angular (gridReady)="onGridReady($event)"
+                    class="ag-theme-alpine-dark movie-grid-card"
+                    [rowData]="movieRows"
+                    [columnDefs]="movieDefs">
+  </ag-grid-angular>
+</div>
+<button mat-raised-button
+        style="background-color: #222628; color: whitesmoke; margin-left: 32px; margin-top: 250px;"
+        (click)="dialogRef.close()">
+  Close
+</button>
